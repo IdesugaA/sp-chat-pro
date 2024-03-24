@@ -1,8 +1,23 @@
 package com.chat.chatpro.Service.impl;
 
 
+import com.chat.chatpro.Mapper.PictureMapper;
+import com.chat.chatpro.Mapper.ShareMapper;
+import com.chat.chatpro.Pojo.DTO.ShareDTO;
+import com.chat.chatpro.Pojo.DTO.SharePageQueryDTO;
+import com.chat.chatpro.Result.PageResult;
+import com.chat.chatpro.Service.ShareService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.chat.chatpro.Pojo.Entity.Share;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
-public class ShareServiceImple implements ShareService{
+public class ShareServiceImpl implements ShareService {
 
 	@Autowired
 	private ShareMapper shareMapper;
@@ -14,11 +29,11 @@ public class ShareServiceImple implements ShareService{
 		LocalDateTime publishTime = shareDTO.getPublishTime();
 	        String publisherId = shareDTO.getPublisherId();
 		String content = shareDTO.getContent();
-		List<Integer> picIds = shareDTO.getPicIds();
+		List<String> picIds = shareDTO.getPicIds();
 		
 		//检验图片是否都在图库中
-		int count_r = pictureMapper.batchQueryExist(picId);
-		if(count_r != picIds){
+		int count_r = pictureMapper.batchQueryExist_share(picIds);
+		if(count_r != picIds.size()){
 			return false;
 		}	
 		
@@ -33,7 +48,7 @@ public class ShareServiceImple implements ShareService{
 		
 		//update_share方法用来更新朋友圈图片对应的朋友圈动态ID
 		//由于一条朋友圈动态一般有多张，所以直接创建一个批量插入方法
-		picMapper.batchUpdateShareId_share(picIds,newshare.getId());
+		pictureMapper.batchUpdateShareId_share(newshare.getId(),picIds);
 		
 		return true;	
 
@@ -53,7 +68,7 @@ public class ShareServiceImple implements ShareService{
 
 	public PageResult getShare(SharePageQueryDTO sharePageQueryDTO){
 		
-		int page = SharePageQueryDTO.getPage();
+		int page = sharePageQueryDTO.getPage();
 		int pageSize = sharePageQueryDTO.getPageSize();
 
 
@@ -62,10 +77,10 @@ public class ShareServiceImple implements ShareService{
 		//page是arraylist的子类
 		PageHelper.startPage(page,pageSize);
 		List<Share> shareList = shareMapper.pageQuery();
-		Page<Share> page = (Page<Share>) shareList;
+		Page<Share> pageG = (Page<Share>) shareList;
 
 		return PageResult.builder()
-		       .total(page.getTotal())
+		       .total(pageG.getTotal())
 			.shareList(shareList)
 	 		.build();		
 

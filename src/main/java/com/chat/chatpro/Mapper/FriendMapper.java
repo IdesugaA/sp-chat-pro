@@ -1,5 +1,10 @@
 package com.chat.chatpro.Mapper;
 
+import com.chat.chatpro.Pojo.Entity.Friend;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
 @Mapper
 public interface FriendMapper{
 

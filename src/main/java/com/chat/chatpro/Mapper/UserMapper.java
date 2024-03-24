@@ -1,5 +1,9 @@
 package com.chat.chatpro.Mapper;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import com.chat.chatpro.Pojo.Entity.User;
+
 @Mapper
 public interface UserMapper{
 
@@ -11,4 +15,5 @@ public interface UserMapper{
 
 	public void insert(User user);
 
+	String queryByName(String username);
 }

@@ -1,6 +1,15 @@
 package com.chat.chatpro.Service.impl;
 
-public class MessageService implements MessageService{
+import com.chat.chatpro.Exception.NotFriendException;
+import com.chat.chatpro.Mapper.FriendMapper;
+import com.chat.chatpro.Service.MessageService;
+import com.chat.chatpro.WebSocket.WebSocketServer;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.chat.chatpro.Pojo.Entity.Message;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MessageServiceImpl implements MessageService {
 
 	@Autowired
 	private FriendMapper friendMapper;
@@ -14,7 +23,7 @@ public class MessageService implements MessageService{
 			throw new NotFriendException();
 		}
 
-		WebSocketserver.sendMessage(msg,toUsersession);
+		WebSocketServer.sendMessage(msg);
 	}
 
 

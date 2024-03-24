@@ -1,5 +1,16 @@
-package com.chat.chatpro.Util.JwtUtil;
+package com.chat.chatpro.Util;
 
+
+import com.chat.chatpro.Properties.JwtProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.Map;
 
 //封装成工具类，使用的是jjwt-root库
 public class JwtUtil{
@@ -18,6 +29,7 @@ public class JwtUtil{
 		//另外，claims保存的是payload，
 		//这部分是明文的，只不过经过了Base64URL编码
 		//claims的数据格式和泛型格式也是固定的
+		//目前payload只有userid
 
 		JwtBuilder builder = Jwts.builder()
 			.setClaims(claims)

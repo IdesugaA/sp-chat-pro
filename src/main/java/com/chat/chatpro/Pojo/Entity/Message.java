@@ -1,9 +1,13 @@
-package com.chat.chatpro.Entity;
+package com.chat.chatpro.Pojo.Entity;
+
+import lombok.Data;
+
+import java.io.Serializable;
 
 @Data
-public class Message implements Serializble{
+public class Message implements Serializable {
 
-	private int id;
+	private String id;
 	private String msg;
 	private String fromUserId;
 	private String toUserId;

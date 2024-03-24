@@ -1,7 +1,20 @@
 package com.chat.chatpro.Service.impl;
 
 
-public class UserServiceImpl implements UserService{
+import com.chat.chatpro.Exception.AccountAlreadyExistException;
+import com.chat.chatpro.Exception.PasswordErrorException;
+import com.chat.chatpro.Mapper.UserMapper;
+import com.chat.chatpro.Pojo.DTO.UserLoginDTO;
+import com.chat.chatpro.Pojo.DTO.UserRegisterDTO;
+import com.chat.chatpro.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.chat.chatpro.Pojo.Entity.User;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+
+@Service
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
@@ -15,12 +28,13 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
-	public Integer register(UserRegisterDTO userRegisterDTO){
-		String username = userRegisterDTO.getUserid();
+	public String register(UserRegisterDTO userRegisterDTO){
+		String username = userRegisterDTO.getUsername();
 		String password = userRegisterDTO.getPassword();
-		userMapper.insert(userid,password);
 		String userid = userMapper.queryByName(username);
-		if(userid != null) throw AccountAlreadyExistException();
+		if(userid != null){
+			throw new AccountAlreadyExistException();
+		}
 		User newuser = new User();
 		newuser.setUsername(username);
 		newuser.setPassword(password);

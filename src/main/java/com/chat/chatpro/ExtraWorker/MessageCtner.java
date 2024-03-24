@@ -1,10 +1,21 @@
 package com.chat.chatpro.ExtraWorker;
 
+import com.chat.chatpro.Exception.MsgCtnerAlreadyExistException;
+import com.chat.chatpro.Exception.MsgCtnerCreatedFailException;
+import com.chat.chatpro.Exception.MsgCtnerNotExistException;
+import com.chat.chatpro.Mapper.MessageMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.chat.chatpro.Pojo.Entity.Message;
+import java.util.LinkedList;
+
 @Component
-public class MessageCtner<Message>{
+@Slf4j
+public class MessageCtner{
 
 	@Autowired
-	private MsgMapper msgMapper;
+	private MessageMapper msgMapper;
 
 	private static LinkedList<Message> msgStack = null;
 	//spring在创建bean实例时默认会调用其无参构造函数
@@ -18,15 +29,15 @@ public class MessageCtner<Message>{
 		return false;
 	}
 
-	public boolean MessageCtner(){
+	public MessageCtner(){
+		log.info("MsgCtner开始注入");
 		if(msgStack != null){
-			throw new MsgCtnerAlreadyExistException()
+			throw new MsgCtnerAlreadyExistException();
 		}
 		msgStack = msgMapper.getList();
 		if(msgStack == null){
-			throw new MsgCtnerCreatedFailException();
+			msgStack = new LinkedList<>();
 		}
-		return true;
 	}
 
 	public boolean push(Message msg){

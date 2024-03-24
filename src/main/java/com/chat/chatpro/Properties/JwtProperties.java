@@ -2,8 +2,12 @@ package com.chat.chatpro.Properties;
 
 //jwt令牌信息，所有用户的jwt令牌基本属性都是这样的
 
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
 @Component
-@ConfigurationProperties(prefix="")
+@ConfigurationProperties(prefix = "spring.jwt")
 @Data
 public class JwtProperties{
 

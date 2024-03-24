@@ -1,5 +1,12 @@
 package com.chat.chatpro.Mapper;
 
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import com.chat.chatpro.Pojo.Entity.Share;
+
+import java.util.List;
+
 @Mapper
 public interface ShareMapper{
 
@@ -12,6 +19,6 @@ public interface ShareMapper{
 	public void delete(String id);
 
 	@Select("select * from share_info")
-	public void pageQuery();
+	public List pageQuery();
 
 }

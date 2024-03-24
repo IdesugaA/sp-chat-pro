@@ -1,10 +1,22 @@
 package com.chat.chatpro.Config;
 
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
+
 @Configuration
-@ConfigurationProperties(prefix="threadpool")
+@ConfigurationProperties(prefix = "spring.threadpool")
 @EnableAsync
-public class ThreadPoolConfig{
+@Slf4j
+@Data
+public class TaskExecutorConfig{
 
 	private int getMsgPoolcorePoolSize;
 	
@@ -19,9 +31,10 @@ public class ThreadPoolConfig{
 	private int sndMsgPoolqueueCapacity;
 
 
-	@Bean("getMsgPool")
-	public Executor getmsgPool(){
+	@Bean(name = "getMsgPool")
+	public ThreadPoolTaskExecutor getmsgPool(){
 		ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
+		log.info("getMsgPool开始注入");
 		pool.setCorePoolSize(getMsgPoolcorePoolSize);
 		pool.setMaxPoolSize(getMsgPoolmaxPoolSize);
 		pool.setQueueCapacity(getMsgPoolqueueCapacity);
@@ -29,12 +42,12 @@ public class ThreadPoolConfig{
 		return pool;
 	}
 
-	@Bean("sndMsgPool")
-	public Executor sndmsgPool(){
+	@Bean(name = "sndMsgPool")
+	public ThreadPoolTaskExecutor sndmsgPool(){
 		ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
-		pool.setCorePoolSize(getMsgPoolcorePoolSize);
-		pool.setMaxPoolSize(getMsgPoolmaxPoolSize);
-		pool.setQueueCapacity(getMsgPoolqueueCapacity);
+		pool.setCorePoolSize(sndMsgPoolcorePoolSize);
+		pool.setMaxPoolSize(sndMsgPoolmaxPoolSize);
+		pool.setQueueCapacity(sndMsgPoolqueueCapacity);
 		pool.initialize();
 		return pool;
 	}

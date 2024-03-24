@@ -3,7 +3,7 @@
 <mapper namespace="com.chat.chatpro.mapper.UserMapper">
 
 
-	<insert id="insert" parameterType="User" useGenerateKeys="true" keyProperty="userid">
+	<insert id="insert" parameterType="User" useGeneratedKeys="true" keyProperty="userid">
 		insert into user_info (username,password,create_Time) values(#{username},#{password},
 		#{createTime})
 	</insert>
